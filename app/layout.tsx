@@ -1,5 +1,14 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+
+import { ConsentAwareAnalytics } from "@/components/consent-analytics";
+import { CookieBanner } from "@/components/cookie-banner";
+import { JsonLd } from "@/components/json-ld";
+import { SceneBackgroundDynamic } from "@/components/scene-background-dynamic";
+import { SkipLink } from "@/components/skip-link";
+import { ThemeProvider } from "@/components/theme-provider";
+import { buildRootMetadata } from "@/lib/seo";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,10 +21,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Jannatul Jarin | Digital Marketer & Visual Strategist",
-  description:
-    "Digital marketing, SEO, visual strategy, and growth — portfolio site.",
+export const metadata: Metadata = buildRootMetadata();
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#020617" },
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+  ],
+  colorScheme: "dark light",
 };
 
 export default function RootLayout({
@@ -26,10 +41,18 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
-        {children}
+      <body className="relative min-h-full bg-background text-foreground">
+        <ThemeProvider>
+          <SkipLink />
+          <JsonLd />
+          <SceneBackgroundDynamic />
+          <div className="relative z-10 flex min-h-full flex-col">{children}</div>
+          <CookieBanner />
+          <ConsentAwareAnalytics />
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -13,6 +13,9 @@
 # testing
 /coverage
 
+# env templates (not secrets)
+!.env.example
+
 # next.js
 /.next/
 /out/
