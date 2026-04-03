@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { EXPERIENCE, PROJECTS, SKILLS } from "@/lib/portfolio-data";
+import { EXPERIENCE, FAQ, PROJECTS, SKILLS } from "@/lib/portfolio-data";
 
 /** Public site URL — set `NEXT_PUBLIC_SITE_URL` in production (e.g. https://yourdomain.com). */
 export function getSiteUrl(): string {
@@ -38,7 +38,7 @@ export const SITE = {
     "Jannatul Jarin | Digital Marketer, SEO & Visual Strategy Portfolio",
   tagline: "Digital Marketing & Visual Strategist",
   description:
-    "Digital marketer and visual strategist specializing in SEO, SEM, social media growth, content, analytics, and brand-focused design. Portfolio: technical audits, backlinks, keyword research, on-page SEO, and measurable growth.",
+    "Digital marketer and SEO strategist for Bangladesh and remote teams: technical SEO, content, SEM, social growth, analytics, and brand-ready design—with reporting you can act on.",
   email: "jannatjarin116@gmail.com",
   linkedIn: "https://www.linkedin.com/in/jannatul-jarin/",
   resume:
@@ -188,6 +188,18 @@ export function buildJsonLdGraph() {
         description: SITE.description,
         inLanguage: "en",
         publisher: { "@id": id("person") },
+        potentialAction: [
+          {
+            "@type": "CommunicateAction",
+            name: "Contact via email",
+            target: `mailto:${SITE.email}`,
+          },
+          {
+            "@type": "CommunicateAction",
+            name: "Contact form",
+            target: `${base}/#contact`,
+          },
+        ],
       },
       {
         "@type": "ProfilePage",
@@ -201,7 +213,7 @@ export function buildJsonLdGraph() {
         primaryImageOfPage: {
           "@type": "ImageObject",
           url: absoluteUrl(SITE.ogImagePath),
-          caption: `${SITE.name} portrait`,
+          caption: `${SITE.name} — ${SITE.tagline}, professional headshot`,
         },
         breadcrumb: { "@id": id("breadcrumb") },
       },
@@ -228,6 +240,11 @@ export function buildJsonLdGraph() {
         email: SITE.email,
         sameAs,
         knowsAbout: [...SKILLS],
+        knowsLanguage: ["English", "Bengali"],
+        areaServed: [
+          { "@type": "Country", name: "Bangladesh" },
+          { "@type": "Place", name: "Worldwide (remote)" },
+        ],
         worksFor,
         subjectOf: { "@id": id("portfolio") },
       },
@@ -239,6 +256,19 @@ export function buildJsonLdGraph() {
           "SEO, social media, content, and growth work samples and case highlights.",
         numberOfItems: PROJECTS.length,
         itemListElement: portfolioItems,
+      },
+      {
+        "@type": "FAQPage",
+        "@id": id("faq"),
+        url: `${base}/#faq`,
+        mainEntity: FAQ.map((item) => ({
+          "@type": "Question" as const,
+          name: item.question,
+          acceptedAnswer: {
+            "@type": "Answer" as const,
+            text: item.answer,
+          },
+        })),
       },
     ],
   };

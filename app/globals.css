@@ -39,6 +39,9 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-accent-brand: var(--accent-brand);
+  --color-accent-brand-foreground: var(--accent-brand-foreground);
+  --color-accent-brand-muted: var(--accent-brand-muted);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -49,24 +52,31 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  /* Warm paper base — distinct from pure white cards */
+  --background: oklch(0.985 0.008 85);
+  --foreground: oklch(0.18 0.02 265);
+  --card: oklch(0.998 0.004 85);
+  --card-foreground: oklch(0.18 0.02 265);
+  --popover: oklch(0.998 0.004 85);
+  --popover-foreground: oklch(0.18 0.02 265);
+  /* Buttons & key actions — deep slate with slight cool hue */
+  --primary: oklch(0.28 0.04 265);
+  --primary-foreground: oklch(0.99 0.005 85);
+  --secondary: oklch(0.96 0.012 85);
+  --secondary-foreground: oklch(0.22 0.02 265);
+  --muted: oklch(0.955 0.01 85);
+  --muted-foreground: oklch(0.45 0.02 265);
+  --accent: oklch(0.96 0.02 265);
+  --accent-foreground: oklch(0.22 0.02 265);
+  /* Marketing accent — teal-cyan for eyebrows, chips, links */
+  --accent-brand: oklch(0.45 0.12 195);
+  /* Readable on --accent-brand-muted (light tint) */
+  --accent-brand-foreground: oklch(0.22 0.07 195);
+  --accent-brand-muted: oklch(0.94 0.04 195);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: oklch(0.9 0.015 85);
+  --input: oklch(0.9 0.015 85);
+  --ring: oklch(0.52 0.1 195);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -84,24 +94,28 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --background: oklch(0.14 0.02 265);
+  --foreground: oklch(0.97 0.01 85);
+  --card: oklch(0.2 0.025 265);
+  --card-foreground: oklch(0.97 0.01 85);
+  --popover: oklch(0.2 0.025 265);
+  --popover-foreground: oklch(0.97 0.01 85);
+  --primary: oklch(0.93 0.02 85);
+  --primary-foreground: oklch(0.18 0.03 265);
+  --secondary: oklch(0.26 0.03 265);
+  --secondary-foreground: oklch(0.97 0.01 85);
+  --muted: oklch(0.26 0.03 265);
+  --muted-foreground: oklch(0.72 0.02 265);
+  --accent: oklch(0.28 0.04 265);
+  --accent-foreground: oklch(0.97 0.01 85);
+  --accent-brand: oklch(0.72 0.14 195);
+  /* Readable on --accent-brand-muted in dark UI */
+  --accent-brand-foreground: oklch(0.96 0.02 195);
+  --accent-brand-muted: oklch(0.28 0.06 195);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.62 0.12 195);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -127,8 +141,52 @@
   html {
     @apply font-sans;
   }
+  :where(h1, h2, h3) {
+    font-family: var(--font-heading);
+    text-wrap: balance;
+  }
   :where(a, button, input, textarea, select, summary):focus-visible {
     @apply outline-ring rounded-sm outline-2 outline-offset-2;
+  }
+}
+
+@layer utilities {
+  .text-accent-brand {
+    color: var(--accent-brand);
+  }
+  .bg-accent-brand-muted {
+    background-color: var(--accent-brand-muted);
+  }
+  .text-accent-brand-foreground {
+    color: var(--accent-brand-foreground);
+  }
+  .border-accent-brand\/30 {
+    border-color: color-mix(in oklch, var(--accent-brand) 30%, transparent);
+  }
+  .ring-accent-brand\/40 {
+    --tw-ring-color: color-mix(in oklch, var(--accent-brand) 40%, transparent);
+  }
+  /** Staggered reveal: pair with animate-in from tw-animate-css */
+  .reveal-delay-1 {
+    animation-delay: 60ms;
+  }
+  .reveal-delay-2 {
+    animation-delay: 120ms;
+  }
+  .reveal-delay-3 {
+    animation-delay: 180ms;
+  }
+  .reveal-delay-4 {
+    animation-delay: 240ms;
+  }
+  .reveal-delay-5 {
+    animation-delay: 300ms;
+  }
+  .section-surface {
+    @apply bg-muted/30;
+  }
+  .dark .section-surface {
+    @apply bg-muted/20;
   }
 }
 
