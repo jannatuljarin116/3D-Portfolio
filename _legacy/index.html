@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="">
+
+    <title>Jannatul Jarin | Digital Marketer & Visual Strategist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-color: #ffffff;
+            --accent-color: #00e676; /* Green */
+            --secondary-accent: #2979ff; /* Blue */
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+            width: 100vw;
+        }
+
+        /* --- 3D BACKGROUND --- */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        /* --- LAYOUT UTILITIES --- */
+        main {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 4rem 0;
+            min-height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            mix-blend-mode: difference;
+            z-index: 100;
+            color: white;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(14px);
+           -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+             z-index: 100;
+        }
+
+        
+
+        .logo {
+            font-weight: 900;
+            font-size: 1.2rem;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        /* --- HERO SECTION (UPDATED FOR 2-COLUMN) --- */
+        .hero {
+            min-height: 100vh;
+            padding-top: 8rem; /* Space for navbar */
+            padding-bottom: 4rem;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr; /* Slightly wider text column */
+            align-items: center;
+            gap: 4rem;
+            width: 100%;
+        }
+
+        .hero-text {
+            max-width: 600px; /* Restrict width for readability */
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem); /* Adjusted size for layout */
+            line-height: 1.1;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 480px;
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--accent-color);
+            color: #000;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Hero Image Styling */
+        .hero-image-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 450px;
+            aspect-ratio: 4/5; /* Portrait ratio */
+            object-fit: cover;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            /* Tilt effect for style */
+            transform: rotate(1deg);
+            transition: transform 0.5s ease;
+        }
+
+        .hero-image:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        /* Decorative circle behind image */
+        .hero-image-wrapper::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--secondary-accent) 0%, transparent 70%);
+            opacity: 0.2;
+            z-index: -1;
+            filter: blur(40px);
+        }
+
+        /* --- SKILLS SECTION --- */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .skill-pill {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: 0.3s;
+        }
+
+        .skill-pill:hover {
+            border-color: var(--accent-color);
+            background: rgba(0, 230, 118, 0.1);
+        }
+
+        .skill-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-color);
+            border-radius: 50%;
+        }
+
+        /* --- EXPERIENCE SECTION --- */
+        .exp-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .exp-card {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 2rem;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .exp-card:hover {
+            border-color: var(--secondary-accent);
+            background: #0f0f0f;
+        }
+
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .exp-company {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .exp-type {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--secondary-accent);
+            background: rgba(41, 121, 255, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .exp-quote {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #ccc;
+            font-style: italic;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .exp-quote::before {
+            content: '"';
+            font-size: 3rem;
+            color: rgba(255,255,255,0.1);
+            position: absolute;
+            top: -20px;
+            left: 0;
+            line-height: 1;
+        }
+
+        /* --- PORTFOLIO / PROJECTS --- */
+        .section-header {
+            margin-bottom: 4rem;
+        }
+        .section-header h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .section-header span {
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+        }
+
+        .card {
+            background: #0a0a0a;
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 250px;
+            background-color: #222;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-image img {
+            transform: scale(1.1);
+        }
+
+        .category-tag {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            backdrop-filter: blur(5px);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-content p {
+            font-size: 0.9rem;
+            color: #aaa;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .metrics {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        /* --- CONTACT --- */
+        .contact-box {
+            background: linear-gradient(135deg, #111, #0a0a0a);
+            border: 1px solid var(--glass-border);
+            padding: 4rem;
+            border-radius: 20px;
+            text-align: center;
+        }
+        
+        .contact-box h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-links a {
+            color: white;
+            font-size: 1.2rem;
+            margin: 0 1rem;
+            text-decoration: none;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        footer {
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-grid {
+                grid-template-columns: 1fr; /* Stack on tablet/mobile */
+                text-align: center;
+                gap: 3rem;
+            }
+            
+            .hero-text {
+                margin: 0 auto;
+            }
+
+            .hero-image {
+                max-width: 350px;
+                transform: rotate(0deg);
+            }
+            
+            .hero p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+            .project-grid, .exp-grid { grid-template-columns: 1fr; }
+        }
+        
+        /* ---------- MOBILE ICON NAV BAR ---------- */
+@media (max-width: 768px) {
+
+    .mobile-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 72px;
+
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        align-items: center;
+
+        background: rgba(0, 0, 0, 0.65);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.4);
+
+        padding-bottom: env(safe-area-inset-bottom);
+        z-index: 1000;
+    }
+
+    .mobile-nav a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 0.7rem;
+
+        gap: 4px;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+    }
+
+    .mobile-nav .icon {
+        font-size: 1.3rem;
+        line-height: 1;
+    }
+
+    .mobile-nav a.active {
+        color: #00e676;
+        transform: translateY(-2px);
+    }
+
+    .mobile-nav a:active {
+        transform: scale(0.95);
+    }
+
+
+
+
+}
+
+
+    /* --- NAVBAR BASE --- */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    color: white;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.logo {
+    font-weight: 900;
+    font-size: 1.2rem;
+    letter-spacing: -0.5px;
+}
+
+/* Nav links desktop */
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Hamburger - hidden on desktop */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.hamburger span {
+    display: block;
+    height: 3px;
+    background: white;
+    border-radius: 2px;
+}
+
+/* --- MOBILE NAVBAR --- */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* hidden by default */
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: rgba(0, 0, 0, 0.9);
+        flex-direction: column;
+        width: 180px;
+        padding: 1rem;
+        border-radius: 8px;
+        z-index: 99;
+    }
+
+    .nav-links.active {
+        display: flex; /* show on toggle */
+    }
+
+    .nav-links a {
+        margin: 0.5rem 0;
+        font-size: 1rem;
+    }
+
+    .hamburger {
+        display: flex; /* show hamburger on mobile */
+    }
+}
+
+
+
+
+    </style>
+</head>
+<body>
+
+    <!-- 3D Background -->
+    <div id="canvas-container"></div>
+
+    <main>
+      <nav>
+    <div class="logo">Jannatul Jarin</div>
+
+    <!-- Hamburger Icon for Mobile -->
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="nav-links" id="nav-links">
+        <a href="#skills">Skills</a>
+        <a href="#experience">Experience</a>
+        <a href="#work">Work</a>
+        <a href="#contact">Contact</a>
+    </div>
+</nav>
+
+        <!-- HERO SECTION (UPDATED LAYOUT) -->
+        <section class="hero container">
+            <div class="hero-grid">
+                <!-- Left: Text -->
+                <div class="hero-text">
+                    <div class="subtitle">Digital Marketing & Visual Strategist</div>
+                    <h1>Bridging Data,<br>Design & Growth.</h1>
+                    <p>
+                       I turn visibility into trust and trust into growth.
+
+                    </p>
+                    <a href="#work" class="btn">View My Work</a>
+                </div>
+
+                <!-- Right: Image -->
+                <div class="hero-image-wrapper">
+                    <!-- REPLACE WITH YOUR IMAGE FILE HERE -->
+                    <!-- Example: <img src="jannatul.jpg" class="hero-image" alt="Jannatul Jarin"> -->
+                    <img src="profile/Jannatul Jarin marketer.png" class="hero-image" alt="Jannatul Jarin" ;transition="none" >
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS SECTION -->
+        <section id="skills" class="container">
+            <div class="section-header">
+                <span>Core Expertise</span>
+                <h2>What I Bring to the Table</h2>
+            </div>
+            
+            <div class="skills-grid">
+                <div class="skill-pill"><div class="skill-dot"></div>Social Media Strategy & Growth</div>
+                <div class="skill-pill"><div class="skill-dot"></div>Advanced SEO & GEO</div>
+                <div class="skill-pill"><div class="skill-dot"></div>Content Writing & Copy</div>
+
+                <div class="skill-pill"><div class="skill-dot"></div>Poster & Visual Design</div>
+                <div class="skill-pill"><div class="skill-dot"></div>Search Engine Marketing (SEM)</div>
+                <div class="skill-pill"><div class="skill-dot"></div>Analytics & Reporting</div>
+
+
+
+
+                <div class="skill-pill"><div class="skill-dot"></div>Brand Psychology</div>
+                <div class="skill-pill"><div class="skill-dot"></div>Market Planning</div>
+
+                <div class="skill-pill"><div class="skill-dot"></div>Organic Growth Cheat Codes</div>
+                <div class="skill-pill"><div class="skill-dot"></div>Lead Collection</div>
+                <div class="skill-pill"><div class="skill-dot"></div>Marketing Consulting</div>
+                <div class="skill-pill"><div class="skill-dot"></div>Team collaboration</div>
+                
+
+
+
+                  
+                
+
+            </div>
+        </section>
+
+        <!-- EXPERIENCE SECTION -->
+        <section id="experience" class="container">
+            <div class="section-header">
+                <span>Where I've Worked</span>
+                <h2>Experience & Clients</h2>
+            </div>
+
+            <div class="exp-grid">
+                
+                <!-- Rafusoft -->
+                <div class="exp-card">
+                    <div class="exp-header">
+                        <span class="exp-company">Rafusoft</span>
+                        <span class="exp-type">Software Firm</span>
+                    </div>
+                    <div class="exp-quote">
+                        Social Media management, poster designing, reels making, collaborating with designer team, performing multi-tasking jobs at the same time, SEO.
+                    </div>
+                </div>
+
+                <!-- Diptyquest -->
+                <div class="exp-card">
+                    <div class="exp-header">
+                        <span class="exp-company">Diptyquest</span>
+                        <span class="exp-type">Recruitment</span>
+                    </div>
+                    <div class="exp-quote">
+                        Social Media Management, effective posters design, seo, content creation, market research, team work with research team.
+                    </div>
+                </div>
+
+                <!-- Aponn Group -->
+                <div class="exp-card">
+                    <div class="exp-header">
+                        <span class="exp-company">Aponn Group</span>
+                        <span class="exp-type">Mother Company</span>
+                    </div>
+                    <div class="exp-quote">
+                        Write effective catalogue for rice production, content creation, team work with design team, manage additional office tasks as well.
+                    </div>
+                </div>
+
+                <!-- TI-Channel -->
+                <div class="exp-card">
+                    <div class="exp-header">
+                        <span class="exp-company">TI-Channel</span>
+                        <span class="exp-type">Islamic OTT Platform</span>
+                    </div>
+                    <div class="exp-quote">
+                        Research on islamic television programs, wrote effective show names, slogan and story through daily content posting and posters or videos editing.
+                    </div>
+                </div>
+
+                <!-- AllStoreBD -->
+                <div class="exp-card">
+                    <div class="exp-header">
+                        <span class="exp-company">AllStoreBD</span>
+                        <span class="exp-type">E-Commerce Platform</span>
+                    </div>
+                    <div class="exp-quote">
+                        Competitor analysis, content writing, product seo, daily social media posting, team work with design team.
+                    </div>
+                </div>
+
+                <!-- NiramBD -->
+                <div class="exp-card">
+                    <div class="exp-header">
+                        <span class="exp-company">NiramBD</span>
+                        <span class="exp-type">Women's Collection Shop</span>
+                    </div>
+                    <div class="exp-quote">
+                        Designed posters on women collection products, crafted motion on canva, edit product images and product seo, created ai videos.
+                    </div>
+                </div>
+
+                <!-- Online Food Business -->
+                <div class="exp-card">
+                    <div class="exp-header">
+                        <span class="exp-company">Online Food Biz</span>
+                        <span class="exp-type">Food Industry</span>
+                    </div>
+                    <div class="exp-quote">
+                        Creating appetizing visual content, managing daily orders, customer engagement, social media growth strategies.
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- WORK SECTION (SEGMENTED) -->
+        <section id="work" class="container">
+            <div class="section-header">
+                <span>Portfolio</span>
+                <h2>Projects</h2>
+            </div>
+
+               <div class="project-grid">
+
+                <!-- CATEGORY: SEO  audit-->
+                <div class="card">
+                    <div class="card-image">
+                        <div class="category-tag" style="background: #00e676; color:black;">SEO</div>
+                        <!-- REPLACE WITH YOUR IMAGE: e.g., <img src="seo-project.jpg"> -->
+                        <img src="website audit/website audit jarin.png" alt="SEO Project" >
+                    </div>
+                    <div class="card-content">
+                        <h3>Technical Site Audit</h3>
+                        <p>Conducted a full technical SEO audit, fixing crawl errors and optimizing site structure for different clients.</p>
+                        <div class="metrics"> • Technical Issues Identification and  Solve </div>
+                    </div>
+                </div>
+
+                       <!-- CATEGORY: SEO backlinking-->
+                <div class="card">
+                    <div class="card-image">
+                        <div class="category-tag" style="background: #00e676; color:black;">SEO</div>
+                        <!-- REPLACE WITH YOUR IMAGE: e.g., <img src="seo-project.jpg"> -->
+                        <img src="backlinks/backlinks by jarin 90+ DA.png" alt="SEO Backlinking Project" >
+                    </div>
+                    <div class="card-content">
+                        <h3>90+ PA/DA Backlinks</h3>
+                        <p>Authority backlinks from high-DA websites to improve search trust and rankings.</p>
+                        <div class="metrics"> • +High DA / DR  • Trusted Real Sites </div>
+                    </div>
+                </div>
+
+                             <!-- CATEGORY: SEO keyword-->
+                <div class="card">
+                    <div class="card-image">
+                        <div class="category-tag" style="background: #00e676; color:black;">SEO</div>
+                        <!-- REPLACE WITH YOUR IMAGE: e.g., <img src="seo-project.jpg"> -->
+                        <img src="" alt="SEO Keyword Project" >
+                    </div>
+                    <div class="card-content">
+                        <h3>Keyword Research </h3>
+                        <p>Improves website visibility and rankings through structured optimization.</p>
+                        <div class="metrics"> • Rankable & Intent matched • Low Difficulty & Competition </div>
+                    </div>
+                </div>   
+
+                                <!-- CATEGORY: SEO On page blog-->
+                <div class="card">
+                    <div class="card-image">
+                        <div class="category-tag" style="background: #00e676; color:black;">SEO</div>
+                        <!-- REPLACE WITH YOUR IMAGE: e.g., <img src="seo-project.jpg"> -->
+                        <img src="" alt="SEO Keyword Project" >
+                    </div>
+                    <div class="card-content">
+                        <h3>On Page Wordpress(Yoast, Rankmath) </h3>
+                        <p>Delivered high on-page SEO quality, scoring 80+ on Yoast and 90+ on Rank Math.</p>
+                        <div class="metrics">•  Meta Tag setup • Image, Video & Voice Optimization  • Internal Linking</div>
+                    </div>
+                </div>   
+
+
+
+                <!-- CATEGORY: SMM -->
+                <div class="card">
+                    <div class="card-image">
+                        <div class="category-tag" style="background: #2979ff;">SMM</div>
+                        <!-- REPLACE WITH YOUR IMAGE -->
+                        <img src="https://placehold.co/600x400/222/FFF?text=Social+Strategy" alt="SMM Project">
+                    </div>
+                    <div class="card-content">
+                        <h3>Social Growth</h3>
+                        <p>Monthly content calendar and growth strategy with Market analysis, Clear roadmap, Measurable goals & Effective Content writing</p>
+                        <div class="metrics">  • Strategy • Content Planning</div>
+                    </div>
+                </div>
+
+                <!-- CATEGORY: POSTER / VISUAL -->
+                <div class="card">
+                    <div class="card-image">
+                        <div class="category-tag" style="background: orangered;">Visuals</div>
+                        <!-- REPLACE WITH YOUR IMAGE -->
+                        <img src="https://placehold.co/600x400/222/FFF?text=Poster+Design" alt="Design Project">
+                    </div>
+                    <div class="card-content">
+                        <h3>Poster Design </h3>
+                        <p> Provides brand messages into eye-catching visual stories</p>
+                        <div class="metrics"> • Gemini • Canva pro</div>
+                    </div>
+                </div>
+
+                <!-- CATEGORY: CONTENT -->
+                <div class="card">
+                    <div class="card-image">
+                        <div class="category-tag" style="background: #ffea00; color:black;">Content</div>
+                        <!-- REPLACE WITH YOUR IMAGE -->
+                        <img src="https://placehold.co/600x400/222/FFF?text=Blog+Content" alt="Content Project">
+                    </div>
+                    <div class="card-content">
+                        <h3>Content Writing</h3>
+                        <p>Turns brand into peoples faith with effective writing.</p>
+                        <div class="metrics">• Human written • SEO blog   </div>
+                    </div>
+                </div>
+
+                <!-- CATEGORY: GROWTH -->
+                <div class="card">
+                    <div class="card-image">
+                        <div class="category-tag" style="background: #d500f9;">Growth</div>
+                        <!-- REPLACE WITH YOUR IMAGE -->
+                        <img src="https://placehold.co/600x400/222/FFF?text=Growth+Report" alt="Growth Project">
+                    </div>
+                    <div class="card-content">
+                        <h3>Performance Reporting</h3>
+                        <p>Monthly deep-dive analytics reports correlating spend with ROI for a digital agency client.</p>
+                        <div class="metrics">Google Analytics • Data Viz</div>
+                    </div>
+                </div>
+                   
+                     
+                                       <!-- CATEGORY: MAP-->
+                <div class="card">
+                    <div class="card-image">
+                        <div class="category-tag" style="background: red;">NAP</div>
+                        <!-- REPLACE WITH YOUR IMAGE -->
+                        <img src="https://placehold.co/600x400/222/FFF?text=Map+Citation" alt="Map Citation">
+                    </div>
+                    <div class="card-content">
+                        <h3>Map Citation</h3>
+                        <p>To improve Google Maps visibility and local trust</p>
+                        <div class="metrics"> • Local Authority • Map Rankings</div>
+                    </div>
+                </div>
+                   
+                                                           <!-- CATEGORY: MAP-->
+                <div class="card">
+                    <div class="card-image">
+                        <div class="category-tag" style="background: red;">NAP</div>
+                        <!-- REPLACE WITH YOUR IMAGE -->
+                        <img src="https://placehold.co/600x400/222/FFF?text=Google+My+Business" alt="Google My Business">
+                    </div>
+                    <div class="card-content">
+                        <h3>Google My Business</h3>
+                        <p>To improve Google Maps visibility and local trust</p>
+                        <div class="metrics"> • Local Authority • Map Rankings</div>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </section>
+
+
+
+        <!-- CONTACT SECTION -->
+        <section id="contact" class="container">
+            <div class="contact-box">
+                <h2>Ready to Scale Your Brand?</h2>
+                <p style="margin-bottom: 2rem; color: #aaa;">I am currently open for freelance projects and full-time roles.</p>
+                <div class="contact-links">
+                    <!-- Add your actual email and LinkedIn here -->
+                    <a href="jannatjarin116@gmail.com">Email Me</a>
+                    <a href="https://www.linkedin.com/in/jannatul-jarin/">LinkedIn</a>
+                    <a href="https://www.scribd.com/document/982910912/Resume-Janantul-Jarin?secret_password=gGmLDcWvdEEJBFrJBzqT">My Resume</a>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+
+        <footer>
+            <p>&copy; 2023 Jannatul Jarin. All Rights Reserved.</p>
+        </footer>
+    </main>
+
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+    // --- 3D SCENE SETUP ---
+    const container = document.getElementById('canvas-container');
+
+    // IMPORTANT: keep canvas behind UI
+    container.style.position = "fixed";
+    container.style.inset = "0";
+    container.style.zIndex = "1";
+    container.style.pointerEvents = "none";
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x050505, 0.0015);
+
+    const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+    );
+    camera.position.z = 6;
+
+    const renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true,
+        powerPreference: "high-performance"
+    });
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0); // true transparency
+
+    container.appendChild(renderer.domElement);
+
+    // --- OBJECTS ---
+    const geometry = new THREE.IcosahedronGeometry(2.5, 1);
+
+    const material = new THREE.MeshStandardMaterial({
+        color: 0x1a1a1a, // slightly darker → better UI contrast
+        wireframe: true,
+        roughness: 0.2,
+        metalness: 0.8
+    });
+
+    const sphere = new THREE.Mesh(geometry, material);
+    scene.add(sphere);
+
+    // Inner Glow (Core)
+    const coreGeo = new THREE.IcosahedronGeometry(1.8, 0);
+    const coreMat = new THREE.MeshBasicMaterial({
+        color: 0x00e676,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.15
+    });
+
+    const core = new THREE.Mesh(coreGeo, coreMat);
+    scene.add(core);
+
+    // --- PARTICLES ---
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 400;
+    const posArray = new Float32Array(particlesCount * 3);
+
+    for (let i = 0; i < particlesCount * 3; i++) {
+        posArray[i] = (Math.random() - 0.5) * 25;
+    }
+
+    particlesGeometry.setAttribute(
+        "position",
+        new THREE.BufferAttribute(posArray, 3)
+    );
+
+    const particlesMaterial = new THREE.PointsMaterial({
+        size: window.innerWidth < 768 ? 0.02 : 0.03, // mobile safe
+        color: 0x00e676,
+        transparent: true,
+        opacity: 0.25 // reduced for nav visibility
+    });
+
+    const particlesMesh = new THREE.Points(
+        particlesGeometry,
+        particlesMaterial
+    );
+    scene.add(particlesMesh);
+
+    // --- LIGHTING ---
+    scene.add(new THREE.AmbientLight(0xffffff, 0.3));
+
+    const pointLight = new THREE.PointLight(0xffffff, 1);
+    pointLight.position.set(10, 10, 10);
+    scene.add(pointLight);
+
+    const pointLight2 = new THREE.PointLight(0x2979ff, 2);
+    pointLight2.position.set(-10, -5, 5);
+    scene.add(pointLight2);
+
+    // --- INTERACTION ---
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetX = 0;
+    let targetY = 0;
+
+    const windowHalfX = window.innerWidth / 2;
+    const windowHalfY = window.innerHeight / 2;
+
+    document.addEventListener("mousemove", (event) => {
+        mouseX = event.clientX - windowHalfX;
+        mouseY = event.clientY - windowHalfY;
+    });
+
+    window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    window.onload = () => {
+        container.style.opacity = 1;
+    };
+
+const hamburger = document.getElementById("hamburger");
+const navLinks = document.getElementById("nav-links");
+hamburger.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+});
+
+    // --- ANIMATION (UNCHANGED) ---
+    const clock = new THREE.Clock();
+
+    function animate() {
+        requestAnimationFrame(animate);
+
+        const elapsedTime = clock.getElapsedTime();
+
+        targetX = mouseX * 0.0005;
+        targetY = mouseY * 0.0005;
+
+        sphere.rotation.y += 0.002;
+        sphere.rotation.x += 0.1 * (targetY - sphere.rotation.x);
+        sphere.rotation.y += 0.1 * (targetX - sphere.rotation.y);
+
+        core.rotation.x -= 0.005;
+
+        particlesMesh.rotation.y = -elapsedTime * 0.02;
+
+        const scale = 1 + Math.sin(elapsedTime) * 0.02;
+        sphere.scale.set(scale, scale, scale);
+
+        const scrollY = window.scrollY;
+        sphere.position.y = scrollY * 0.001;
+        particlesMesh.position.y = -scrollY * 0.002;
+
+        renderer.render(scene, camera);
+    }
+
+    animate();
+</script>
+
+</body>
+</html>
