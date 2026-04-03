@@ -26,7 +26,7 @@ export function HomeHero() {
           content into pipeline—without gimmicks. Technical SEO, creative, and
           reporting in one workflow.
         </p>
-        <div className="animate-in fade-in slide-in-from-bottom-3 flex flex-wrap gap-3 duration-500 fill-mode-both delay-200 motion-reduce:animate-none">
+        <div className="animate-in fade-in slide-in-from-bottom-3 flex flex-wrap gap-4 duration-500 fill-mode-both delay-200 motion-reduce:animate-none">
           <Button nativeButton={false} render={<Link href="#work" />}>
             See case highlights
           </Button>

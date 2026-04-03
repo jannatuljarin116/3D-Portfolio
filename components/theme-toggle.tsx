@@ -27,7 +27,7 @@ export function ThemeToggle({ className }: { className?: string }) {
   if (!mounted) {
     return (
       <div
-        className={cn("bg-muted flex h-8 w-22 rounded-lg p-0.5", className)}
+        className={cn("bg-muted flex h-10 w-29 rounded-full p-1", className)}
         aria-hidden
       />
     );
@@ -38,7 +38,7 @@ export function ThemeToggle({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "bg-muted/80 flex h-8 rounded-lg border border-border/60 p-0.5",
+        "bg-muted/80 flex h-10 items-center gap-0.5 rounded-full border border-border/60 p-1",
         className
       )}
       role="group"
@@ -51,17 +51,17 @@ export function ThemeToggle({ className }: { className?: string }) {
             key={value}
             type="button"
             variant="ghost"
-            size="icon-xs"
+            size="icon-sm"
             className={cn(
-              "size-7 rounded-md",
-              isOn && "bg-background text-foreground shadow-sm"
+              "size-8 shrink-0 rounded-full shadow-none transition-transform duration-200 hover:scale-105 motion-reduce:hover:scale-100",
+              isOn && "bg-background text-foreground shadow-sm ring-1 ring-border/50"
             )}
             aria-pressed={isOn}
             aria-label={`${label} theme`}
             title={label}
             onClick={() => setTheme(value)}
           >
-            <Icon className="size-3.5" aria-hidden />
+            <Icon className="size-4" aria-hidden />
           </Button>
         );
       })}

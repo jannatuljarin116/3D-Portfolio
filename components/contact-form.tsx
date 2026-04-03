@@ -11,8 +11,11 @@ import { cn } from "@/lib/utils";
 
 const initial: ContactState = { ok: false, error: null };
 
-const fieldClass =
-  "border-input bg-background text-foreground placeholder:text-muted-foreground focus-visible:border-accent-brand/50 w-full rounded-xl border px-3 py-2.5 text-sm shadow-sm transition-[color,box-shadow,border-color] duration-200 outline-none focus-visible:ring-[3px] focus-visible:ring-accent-brand/25 disabled:cursor-not-allowed disabled:opacity-50";
+const inputClass =
+  "border-input bg-background text-foreground placeholder:text-muted-foreground focus-visible:border-accent-brand/50 h-12 w-full rounded-full border px-5 text-base shadow-sm transition-[color,box-shadow,border-color] duration-200 outline-none focus-visible:ring-[3px] focus-visible:ring-accent-brand/25 enabled:hover:border-accent-brand/30 enabled:hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50";
+
+const textareaClass =
+  "border-input bg-background text-foreground placeholder:text-muted-foreground focus-visible:border-accent-brand/50 min-h-[140px] w-full rounded-2xl border px-5 py-4 text-base shadow-sm transition-[color,box-shadow,border-color] duration-200 outline-none focus-visible:ring-[3px] focus-visible:ring-accent-brand/25 enabled:hover:border-accent-brand/30 enabled:hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50";
 
 export function ContactForm() {
   const [state, formAction, pending] = useActionState(
@@ -23,7 +26,7 @@ export function ContactForm() {
   if (state.ok) {
     return (
       <p
-        className="text-foreground border-accent-brand/30 bg-accent-brand-muted/40 animate-in fade-in zoom-in rounded-xl border px-5 py-4 text-center text-sm duration-300 motion-reduce:animate-none"
+        className="text-foreground border-accent-brand/30 bg-accent-brand-muted/40 animate-in fade-in zoom-in rounded-2xl border px-6 py-5 text-center text-base duration-300 motion-reduce:animate-none"
         role="status"
       >
         Message received. I&apos;ll reply within one business day with next
@@ -58,7 +61,7 @@ export function ContactForm() {
             required
             autoComplete="name"
             placeholder="Your name"
-            className={fieldClass}
+            className={inputClass}
             disabled={pending}
           />
         </div>
@@ -76,7 +79,7 @@ export function ContactForm() {
             required
             autoComplete="email"
             placeholder="you@company.com"
-            className={fieldClass}
+            className={inputClass}
             disabled={pending}
           />
         </div>
@@ -93,7 +96,7 @@ export function ContactForm() {
             required
             rows={4}
             placeholder="Goals, timeline, links—anything that helps me respond with a useful reply."
-            className={cn(fieldClass, "min-h-[120px] resize-y")}
+            className={cn(textareaClass, "resize-y")}
             disabled={pending}
           />
         </div>
@@ -103,7 +106,11 @@ export function ContactForm() {
           {state.error}
         </p>
       ) : null}
-      <Button type="submit" className="w-full sm:w-auto" disabled={pending}>
+      <Button
+        type="submit"
+        className="w-full min-w-[200px] sm:w-auto"
+        disabled={pending}
+      >
         {pending ? "Sending…" : "Request a reply"}
       </Button>
     </form>
