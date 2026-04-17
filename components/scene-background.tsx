@@ -39,21 +39,21 @@ export function SceneBackground() {
     container.appendChild(renderer.domElement);
 
     const geometry = new THREE.IcosahedronGeometry(2.5, 1);
-    const material = new THREE.MeshStandardMaterial({
-      color: 0x1a1a1a,
+    const material = new THREE.MeshBasicMaterial({
+      color: 0x333333,
       wireframe: true,
-      roughness: 0.2,
-      metalness: 0.8,
+      transparent: true,
+      opacity: 0.08,
     });
     const sphere = new THREE.Mesh(geometry, material);
     scene.add(sphere);
 
-    const coreGeo = new THREE.IcosahedronGeometry(1.8, 0);
+    const coreGeo = new THREE.IcosahedronGeometry(2.0, 1);
     const coreMat = new THREE.MeshBasicMaterial({
       color: 0x00e676,
       wireframe: true,
       transparent: true,
-      opacity: 0.15,
+      opacity: 0.25,
     });
     const core = new THREE.Mesh(coreGeo, coreMat);
     scene.add(core);
